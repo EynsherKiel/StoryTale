@@ -2,6 +2,8 @@
 using StoryTale.Core.Services;
 using StoryTale.Core.Extensions;
 using System.Collections.Generic;
+using StoryTale.Core.Markup;
+using System;
 
 namespace StoryTale.Core.Pipe
 {
@@ -14,11 +16,13 @@ namespace StoryTale.Core.Pipe
             _invoker = invoker;
         }
 
-        public async IAsyncEnumerable<Server> Execute(Node<Server> tree)
+        public async IAsyncEnumerable<Server> Execute(MapMarkup markup, Map map)
         {
+            var tree = map.GetTree();
+
             foreach (var server in tree.Visit(el => true))
             {
-                var result = await _invoker.Invoke(server);
+                var result = await _invoker.Invoke(markup.GetBy(map, server.Id));
 
                 server.Out = result;
 

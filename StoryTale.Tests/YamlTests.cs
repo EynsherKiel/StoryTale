@@ -24,7 +24,7 @@ namespace StoryTale.Tests
                 uri: https://vk.com/feed
                 httpMethod: Get
                 in: 
-                    date: {global date}
+                    date: {Path: global.date}
                 out:
                     carid: null
                     name: null
@@ -34,9 +34,9 @@ namespace StoryTale.Tests
                 uri: https://vk.com/feed
                 httpMethod: Post
                 in:
-                    carId: {{1 carid}}
-                    name: {{1 name}}
-                    date: {{global date}}
+                    carId: {Path: In.carid, Id: 1}
+                    name: {Path: In.name, Id: 1}
+                    date: {Path: global.date}
                 out:
                     isexecute: null
 ...";
@@ -64,7 +64,7 @@ namespace StoryTale.Tests
         [TestMethod]
         public void MapDeserializeSuccess()
         {
-            var map = _deserializer.Deserialize<Map>(_document);
+            var map = (dynamic)_deserializer.Deserialize<Map>(_document);
 
             Assert.IsNotNull(map);
             Assert.IsTrue(map.Servers.Count == 2);

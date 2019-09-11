@@ -8,20 +8,20 @@ namespace StoryTale.Core.Caches
 {
     public class PipeCache
     {
-        private readonly MapFantasy _fantasy;
+        private readonly MapMarkupFactory _factory;
         private readonly IMediator _mediator;
 
-        public PipeCache(IMediator mediator, MapFantasy fantasy)
+        public PipeCache(IMediator mediator, MapMarkupFactory factory)
         {
-            _fantasy = fantasy;
+            _factory = factory;
             _mediator = mediator;
         }
 
-        public async Task<Map> Get(string name)
+        public async Task<MapMarkup> Get(string name)
         {
             var pipeYaml = await _mediator.Send(new GetPipelineRequest { Name = name });
 
-            return _fantasy.Prepare(pipeYaml);
+            return _factory.Create(pipeYaml);
         }
     }
 }

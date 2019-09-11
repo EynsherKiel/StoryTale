@@ -24,16 +24,15 @@ namespace StoryTale.Core.Handlers
 
         public async Task<IAsyncEnumerable<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
         {
-            var map = await _cache.Get(request.Name);
+            var markup = await _cache.Get(request.Name);
+            var map = markup.GetClone();
 
             if (!map.Global.Compare(request.Global))
                 throw new ArgumentException("Ожидались другие параметры");
 
             map.Global = request.Global;
 
-            var tree = map.GetTree();
-
-            return _pipe.Execute(tree);
+            return _pipe.Execute(markup, map);
         }
     }
 

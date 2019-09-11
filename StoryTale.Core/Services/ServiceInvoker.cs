@@ -20,7 +20,6 @@ namespace StoryTale.Core.Services
 
         public async Task<ExpandoObject> Invoke(Server server)
         {
-            server.In = server.In.GetParameters();
             var result = await _client.Invoke<object>(server.Uri, server.HttpMethod, server.In);
 
             if (result.GetType().IsSimple())

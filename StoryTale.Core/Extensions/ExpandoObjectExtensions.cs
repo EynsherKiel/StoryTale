@@ -22,17 +22,17 @@ namespace StoryTale.Core.Extensions
             return obj.Unpack().Keys.Select(el => el.ToLowerInvariant());
         }
 
-        public static ExpandoObject Clone(this ExpandoObject expandoObject, Func<object, object> doSomething)
+        public static ExpandoObject ToExpando<T>(this IDictionary<string, T> dictionary, Func<T, object> elementSelector)
         {
-            var result = new ExpandoObject();
-            var dictionary = result.Unpack();
+            var clone = new ExpandoObject();
+            var cloneDic = clone.Unpack();
 
-            foreach (var item in expandoObject.Unpack())
+            foreach (var pair in dictionary)
             {
-                dictionary[item.Key] = doSomething(item.Value);
+                cloneDic.Add(pair.Key, elementSelector(pair.Value));
             }
 
-            return result;
+            return clone;
         }
     }
 }

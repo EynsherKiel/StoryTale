@@ -31,7 +31,7 @@ namespace StoryTale.Core.Handlers
                 uri: https://localhost:44338/api/simple/hello
                 httpMethod: Get
                 in: 
-                    date: {global date}
+                    date: { Path: global.date }
                 out:
                     carid: null
             -   
@@ -40,74 +40,7 @@ namespace StoryTale.Core.Handlers
                 uri: https://localhost:44338/api/simple/test
                 httpMethod: Post
                 in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 3
-                parentId: 2
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 4
-                parentId: 3
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 5
-                parentId: 4
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 6
-                parentId: 5
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 7
-                parentId: 6
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
-                out:
-                    carId: null
-                    date: null
-            -   
-                id: 8
-                parentId: 7
-                uri: https://localhost:44338/api/simple/test
-                httpMethod: Post
-                in:
-                    carId: {1 carid}
-                    date: {global date}
+                    carId: { Path: In.name, Id: 1 }
                 out:
                     carId: null
                     date: null

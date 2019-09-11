@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using StoryTale.Core.Markup;
+using StoryTale.Core.Markup.Bindings;
 
 namespace StoryTale.Core.Autofac
 {
@@ -7,7 +8,8 @@ namespace StoryTale.Core.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MapFantasy>().SingleInstance(); 
+            builder.RegisterType<MapMarkupFactory>().SingleInstance();
+            builder.RegisterType<ExpandoObjectBinding>().SingleInstance();
         }
     }
 }
