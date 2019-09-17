@@ -35,9 +35,9 @@ namespace StoryTale.Core.Handlers
                     parameters:
                     -
                         attributeid: !globalbind
-                            path: attributeid
+                            path: attribute.id
                         attributevalue: !globalbind
-                            path: attributevalue
+                            path: attribute.value
 
 ...";
 

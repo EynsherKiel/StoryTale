@@ -42,7 +42,7 @@ namespace StoryTale.Tests
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 sw.Start();
 
@@ -52,8 +52,11 @@ namespace StoryTale.Tests
                     Global =  new
                     {
                         TableName =  "Age",
-                        AttributeId = 3,
-                        AttributeValue = "18-64"
+                        Attribute = new
+                        {
+                            Id = 3,
+                            Value = "18-64"
+                        }
                     }
                 });
 

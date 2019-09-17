@@ -2,6 +2,7 @@
 using StoryTale.Core.Data;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using StoryTale.Core.Extensions;
 
 namespace StoryTale.Core.Autofac
 {
@@ -12,8 +13,9 @@ namespace StoryTale.Core.Autofac
             builder.Register(context =>
                 new DeserializerBuilder()
                     .WithNamingConvention(new CamelCaseNamingConvention())
-                    .WithTagMapping("!globalbind", typeof(GlobalBind))
-                    .WithTagMapping("!idbind", typeof(IdBind))
+                    .WithTagMapping<GlobalBind>()
+                    .WithTagMapping<IdBind>()
+                    .WithTagMapping<Condition>()
                     .Build()).SingleInstance();
         }
     }
