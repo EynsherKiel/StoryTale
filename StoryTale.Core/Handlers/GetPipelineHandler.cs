@@ -28,8 +28,16 @@ namespace StoryTale.Core.Handlers
                 parentId: 1
                 uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
                 httpMethod: Post
-                in: !globalbind
-                    path: null
+                in: 
+                -
+                    tablename: !globalbind
+                        path: tablename
+                    parameters:
+                    -
+                        attributeid: !globalbind
+                            path: attributeid
+                        attributevalue: !globalbind
+                            path: attributevalue
 
 ...";
 

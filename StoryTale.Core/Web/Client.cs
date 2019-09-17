@@ -26,7 +26,7 @@ namespace StoryTale.Core.Web
             {
                 // Flurl doesn't know about jtoken -_- 
                 var getParameters = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(parameters));
-                return uri.SetQueryParams(parameters).GetAsync(token);
+                return uri.SetQueryParams(getParameters).GetAsync(token);
             }
 
             return uri.SendJsonAsync(new HttpMethod(method), parameters, token);

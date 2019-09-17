@@ -49,22 +49,12 @@ namespace StoryTale.Tests
                 await _mediator.Send(new ExecutePipelineRequest
                 {
                     Name = "test",
-                    Global = new []
+                    Global =  new
                     {
-                        new
-                        {
-                            TableName =  "Age",
-                            Parameters = new []
-                            {
-                                new
-                                {
-                                    AttributeId = 3,
-                                    AttributeValue = "18-64"
-                                }
-                            }
-                        }
+                        TableName =  "Age",
+                        AttributeId = 3,
+                        AttributeValue = "18-64"
                     }
-
                 });
 
                 System.Console.WriteLine(sw.Elapsed);
