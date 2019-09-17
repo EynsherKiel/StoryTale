@@ -26,15 +26,16 @@ namespace StoryTale.Core.Database
             return With(connection => connection.QueryAsync<T>(sql, parameters, commandType: CommandType.StoredProcedure), token);
         }
 
-        private async Task<T> With<T>(Func<IDbConnection, Task<T>>  func, CancellationToken token)
+        private async Task<T> With<T>(Func<IDbConnection, Task<T>> func, CancellationToken token)
         {
-            using var connection = _connectionManager.GetDb();
+            using (var connection = _connectionManager.GetDb())
+            {
+                connection.Open();
 
-            connection.Open();
+                token.ThrowIfCancellationRequested();
 
-            token.ThrowIfCancellationRequested();
-
-            return await func(connection);
+                return await func(connection);
+            }
         }
     }
 }

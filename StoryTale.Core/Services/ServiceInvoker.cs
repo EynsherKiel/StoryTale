@@ -1,11 +1,7 @@
 ﻿using StoryTale.Core.Data;
 using StoryTale.Core.Extensions;
 using StoryTale.Core.Web;
-using System.Linq;
-using System;
-using System.Dynamic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace StoryTale.Core.Services
 {
@@ -18,28 +14,12 @@ namespace StoryTale.Core.Services
             _client = client;
         }
 
-        public async Task<ExpandoObject> Invoke(Server server)
+        public async Task Execute(Server server, object @in)
         {
-            var result = await _client.Invoke<object>(server.Uri, server.HttpMethod, server.In);
+            var json = await _client.Invoke(server.Uri, server.HttpMethod, @in);
+            var @out = json.ToLowerJToken();
 
-            if (result.GetType().IsSimple())
-            {
-                var dic = server.Out.Unpack();
-
-                if (dic.Count != 1)
-                    throw new NotSupportedException();
-
-                dic[dic.Keys.First()] = result;
-
-                return server.Out;
-            }
-
-            var @out = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(result));
-
-            if (!@out.Compare(server.Out))
-                throw new ArgumentException("Ожидались другие параметры");
-
-            return @out;
+            server.Out = @out;
         }
     }
 }

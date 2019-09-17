@@ -1,10 +1,11 @@
-﻿using StoryTale.Core.Data;
+﻿using Newtonsoft.Json.Linq;
+using StoryTale.Core.Data;
 using System;
 
 namespace StoryTale.Core.Markup.Bindings
 {
     public interface IBinding
     {
-        Func<Map, object> TryCreate(object obj);
+        Func<Map, JToken> TryCreate(object obj);
     }
 }

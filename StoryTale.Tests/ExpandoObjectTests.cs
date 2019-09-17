@@ -10,30 +10,13 @@ namespace StoryTale.Tests
     public class ExpandoObjectTests
     {
         [TestMethod]
-        public void ExpandoTestsSuccess()
-        {
-            var left = new ExpandoObject();
-            var right = new ExpandoObject();
-
-            Assert.IsTrue(left.Compare(right));
-        }
-
-        [TestMethod]
-        public void DynamicExpandoTestsSuccess()
-        {
-            dynamic left = new ExpandoObject();
-            dynamic right = new ExpandoObject();
-
-            left.iNcar = "car";
-            right.incar = "dad";
-
-            Assert.IsTrue(ExpandoObjectExtensions.Compare(left, right));
-        }
-
-        [TestMethod]
         public void ToJsonSuccess()
         {
-            static string func() => "14";
+            string func()
+            {
+                return "14";
+            }
+
             dynamic left = new ExpandoObject();
 
             left.iNcar = (Func<string>)func;

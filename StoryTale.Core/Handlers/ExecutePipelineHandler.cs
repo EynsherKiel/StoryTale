@@ -1,17 +1,15 @@
 ﻿using StoryTale.Core.Caches;
 using StoryTale.Core.Data;
-using StoryTale.Core.Extensions;
 using StoryTale.Core.Pipe;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
+using StoryTale.Core.Extensions;
 
 namespace StoryTale.Core.Handlers
 {
-    public class ExecutePipelineHandler : IRequestHandler<ExecutePipelineRequest, IAsyncEnumerable<Server>>
+    public class ExecutePipelineHandler : IRequestHandler<ExecutePipelineRequest, IList<Server>>
     {
         private readonly PipelineManager _pipe;
         private readonly PipeCache _cache;
@@ -22,23 +20,23 @@ namespace StoryTale.Core.Handlers
             _cache = cache;
         }
 
-        public async Task<IAsyncEnumerable<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
+        public async Task<IList<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
         {
             var markup = await _cache.Get(request.Name);
+
             var map = markup.GetClone();
 
-            if (!map.Global.Compare(request.Global))
-                throw new ArgumentException("Ожидались другие параметры");
+            map.Global = request.Global.ToLowerJToken();
 
-            map.Global = request.Global;
+            var servers = await _pipe.Execute(markup, map);
 
-            return _pipe.Execute(markup, map);
+            return servers;
         }
     }
 
-    public class ExecutePipelineRequest : IRequest<IAsyncEnumerable<Server>>
+    public class ExecutePipelineRequest : IRequest<IList<Server>>
     {
         public string Name { get; set; }
-        public ExpandoObject Global { get; set; }
+        public object Global { get; set; }
     }
 }

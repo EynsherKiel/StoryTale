@@ -18,33 +18,21 @@ namespace StoryTale.Core.Handlers
         {
             // getting from database
             var document = @"---
-            global: 
-                name: null
-                date: null
 
-            rootId: 1
+            rootId: 2
             
             servers:
-            -   
-                id: 1
-                parentId: null
-                uri: https://localhost:44338/api/simple/hello
-                httpMethod: Get
-                in: 
-                    date: { Path: global.date }
-                out:
-                    carid: null
+
             -   
                 id: 2
                 parentId: 1
-                uri: https://localhost:44338/api/simple/test
+                uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
                 httpMethod: Post
-                in:
-                    carId: { Path: In.name, Id: 1 }
-                out:
-                    carId: null
-                    date: null
-...";               
+                in: !globalbind
+                    path: null
+
+
+...";
 
             return Task.FromResult(document);
         }

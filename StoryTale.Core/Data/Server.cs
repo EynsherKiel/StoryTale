@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using System.Net.Http;
+﻿using Newtonsoft.Json.Linq;
 
 namespace StoryTale.Core.Data
 {
@@ -9,8 +8,9 @@ namespace StoryTale.Core.Data
         public int? ParentId { get; set; }
         public string Uri { get; set; }
         public string HttpMethod { get; set; }
-        public ExpandoObject In { get; set; } = new ExpandoObject();
-        public ExpandoObject Out { get; set; } = new ExpandoObject();
-        public ExpandoObject When { get; set; } = new ExpandoObject();
+        public object In { get; set; }
+        [YamlDotNet.Serialization.YamlIgnore]
+        public JToken Out { get; set; }
+        public object When { get; set; }
     }
 }

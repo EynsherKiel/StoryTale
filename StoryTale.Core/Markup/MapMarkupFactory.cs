@@ -1,5 +1,4 @@
 ﻿using StoryTale.Core.Data;
-using StoryTale.Core.Markup.Bindings;
 using YamlDotNet.Serialization;
 
 namespace StoryTale.Core.Markup
@@ -7,19 +6,14 @@ namespace StoryTale.Core.Markup
     public class MapMarkupFactory
     {
         private readonly IDeserializer _deserializer;
-        private readonly ExpandoObjectBinding _binding;
+        private readonly BindingFactory _binding;
 
-        public MapMarkupFactory(IDeserializer deserializer, ExpandoObjectBinding binding)
+        public MapMarkupFactory(IDeserializer deserializer, BindingFactory binding)
         {
             _deserializer = deserializer;
             _binding = binding;
         }
 
-        public MapMarkup Create(string yaml)
-        {
-            var map = _deserializer.Deserialize<Map>(yaml);
-
-            return new MapMarkup(map, _binding);
-        }
+        public MapMarkup Create(string yaml) => new MapMarkup(_deserializer.Deserialize<Map>(yaml), _binding);
     }
 }

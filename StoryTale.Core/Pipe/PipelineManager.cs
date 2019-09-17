@@ -3,7 +3,7 @@ using StoryTale.Core.Services;
 using StoryTale.Core.Extensions;
 using System.Collections.Generic;
 using StoryTale.Core.Markup;
-using System;
+using System.Threading.Tasks;
 
 namespace StoryTale.Core.Pipe
 {
@@ -16,18 +16,20 @@ namespace StoryTale.Core.Pipe
             _invoker = invoker;
         }
 
-        public async IAsyncEnumerable<Server> Execute(MapMarkup markup, Map map)
+        public async Task<IList<Server>> Execute(MapMarkup markup, Map map)
         {
-            var tree = map.GetTree();
+            var list = new List<Server>();
 
-            foreach (var server in tree.Visit(el => true))
+            foreach (var server in map.GetTree().Visit(el => true))
             {
-                var result = await _invoker.Invoke(markup.GetBy(map, server.Id));
+                var @in = markup.GetIn(map, server.Id);
 
-                server.Out = result;
-
-                yield return server;
+                await _invoker.Execute(server, @in);
+                
+                list.Add(server);
             }
+
+            return list;
         }
     }
 }

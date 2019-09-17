@@ -41,16 +41,35 @@ namespace StoryTale.Tests
         [TestMethod]
         public async Task ExecutePipelineRequestSuccess()
         {
-            dynamic global = new ExpandoObject();
+            //var sw = System.Diagnostics.Stopwatch.StartNew();
 
-            global.name = "car";
-            global.date = System.DateTime.Now;
-
-            var result = await _mediator.Send(new ExecutePipelineRequest { Name = "test", Global = global });
-
-            await foreach (var item in result)
+            for (int i = 0; i < 100; i++)
             {
-                Assert.IsNotNull(item);
+                //sw.Start();
+
+                await _mediator.Send(new ExecutePipelineRequest
+                {
+                    Name = "test",
+                    Global = new []
+                    {
+                        new
+                        {
+                            TableName =  "Age",
+                            Parameters = new []
+                            {
+                                new
+                                {
+                                    AttributeId = 3,
+                                    AttributeValue = "18-64"
+                                }
+                            }
+                        }
+                    }
+
+                });
+
+                //System.Console.WriteLine(sw.Elapsed);
+                //sw.Reset();
             }
         }
     }

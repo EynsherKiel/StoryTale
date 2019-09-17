@@ -9,7 +9,7 @@ namespace StoryTale.Core.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MapMarkupFactory>().SingleInstance();
-            builder.RegisterType<ExpandoObjectBinding>().SingleInstance();
+            builder.RegisterType<BindingFactory>().SingleInstance();
         }
     }
 }

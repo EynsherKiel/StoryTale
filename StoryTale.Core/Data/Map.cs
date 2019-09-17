@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace StoryTale.Core.Data
 {
     public class Map
     {
         public int RootId { get; set; }
-        public ExpandoObject Global { get; set; } = new ExpandoObject();
-        public List<Server> Servers { get; set; } = new List<Server>();
+        public JToken Global { get; set; }
+        public List<Server> Servers { get; set; }
     } 
 }
