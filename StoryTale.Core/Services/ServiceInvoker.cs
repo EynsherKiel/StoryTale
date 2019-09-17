@@ -1,5 +1,4 @@
 ﻿using StoryTale.Core.Data;
-using StoryTale.Core.Extensions;
 using StoryTale.Core.Web;
 using System.Threading.Tasks;
 
@@ -14,12 +13,10 @@ namespace StoryTale.Core.Services
             _client = client;
         }
 
-        public async Task Execute(Server server, object @in)
+        public Task<string> Execute(Server server, object @in)
         {
-            var json = await _client.Invoke(server.Uri, server.HttpMethod, @in);
-            var @out = json.ToLowerJToken();
-
-            server.Out = @out;
+            //return _client.Invoke(server.Uri, server.HttpMethod, @in);
+            return Task.FromResult("[{\"tableName\":\"Age\",\"uniqueId\":null,\"value\":1.000000}]");
         }
     }
 }

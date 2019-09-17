@@ -3,17 +3,17 @@ using YamlDotNet.Serialization;
 
 namespace StoryTale.Core.Markup
 {
-    public class MapMarkupFactory
+    public class ProcessesFactory
     {
         private readonly IDeserializer _deserializer;
         private readonly BindingFactory _binding;
 
-        public MapMarkupFactory(IDeserializer deserializer, BindingFactory binding)
+        public ProcessesFactory(IDeserializer deserializer, BindingFactory binding)
         {
             _deserializer = deserializer;
             _binding = binding;
         }
 
-        public MapMarkup Create(string yaml) => new MapMarkup(_deserializer.Deserialize<Map>(yaml), _binding);
+        public ProcessFactory Create(string yaml) => new ProcessFactory(_deserializer.Deserialize<Map>(yaml), _binding);
     }
 }

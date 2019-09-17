@@ -5,7 +5,6 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using StoryTale.Core.Extensions;
 
 namespace StoryTale.Core.Handlers
 {
@@ -22,15 +21,9 @@ namespace StoryTale.Core.Handlers
 
         public async Task<IList<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
         {
-            var markup = await _cache.Get(request.Name);
+            var process = await _cache.Get(request.Name, request.Global);
 
-            var map = markup.GetClone();
-
-            map.Global = request.Global.ToLowerJToken();
-
-            var servers = await _pipe.Execute(markup, map);
-
-            return servers;
+            return await _pipe.Execute(process);
         }
     }
 

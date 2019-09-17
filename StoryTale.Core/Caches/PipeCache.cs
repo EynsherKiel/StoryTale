@@ -8,11 +8,11 @@ namespace StoryTale.Core.Caches
 {
     public class PipeCache
     {
-        private readonly MapMarkupFactory _factory;
+        private readonly ProcessesFactory _factory;
         private readonly IMediator _mediator;
-        private readonly MapMarkup _markup;
+        private readonly ProcessFactory _processFactory;
 
-        public PipeCache(IMediator mediator, MapMarkupFactory factory)
+        public PipeCache(IMediator mediator, ProcessesFactory factory)
         {
             _factory = factory;
             _mediator = mediator;
@@ -20,10 +20,10 @@ namespace StoryTale.Core.Caches
 
             var pipeYaml = _mediator.Send(new GetPipelineRequest {  }).Result;
 
-            _markup = _factory.Create(pipeYaml);
+            _processFactory = _factory.Create(pipeYaml);
         }
 
-        public Task<MapMarkup> Get(string name) => Task.FromResult(_markup);
+        public Task<Process> Get(string name, object global) => Task.FromResult(_processFactory.CreateProcess(global));
 
         //public async Task<MapMarkup> Get(string name)
         //{

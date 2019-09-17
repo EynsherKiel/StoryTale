@@ -1,6 +1,5 @@
 ﻿using StoryTale.Core.Data;
 using StoryTale.Core.Services;
-using StoryTale.Core.Extensions;
 using System.Collections.Generic;
 using StoryTale.Core.Markup;
 using System.Threading.Tasks;
@@ -16,16 +15,17 @@ namespace StoryTale.Core.Pipe
             _invoker = invoker;
         }
 
-        public async Task<IList<Server>> Execute(MapMarkup markup, Map map)
+        public async Task<IList<Server>> Execute(Process process)
         {
             var list = new List<Server>();
 
-            foreach (var server in map.GetTree().Visit(el => true))
+            foreach (var server in process.Visit())
             {
-                var @in = markup.GetIn(map, server.Id);
+                var @in = process.GetIn(server);
+                var @out = await _invoker.Execute(server, @in);
 
-                await _invoker.Execute(server, @in);
-                
+                process.SetOut(server, @out);
+
                 list.Add(server);
             }
 

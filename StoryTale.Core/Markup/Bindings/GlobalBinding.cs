@@ -6,11 +6,11 @@ namespace StoryTale.Core.Markup.Bindings
 {
     public class GlobalBinding : IBinding
     {
-        public Func<Map, JToken> TryCreate(object obj)
+        public Func<Tree, JToken> TryCreate(object obj)
         {
             return obj is GlobalBind bind ? 
-                    (map => map.Global.SelectToken(bind.Path ?? string.Empty)) :
-                default(Func<Map, JToken>);
+                    (tree => tree.Global.SelectToken(bind.Path ?? string.Empty)) :
+                default(Func<Tree, JToken>);
         }
     }
 }

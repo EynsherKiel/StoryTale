@@ -6,6 +6,6 @@ namespace StoryTale.Core.Markup.Bindings
 {
     public interface IBinding
     {
-        Func<Map, JToken> TryCreate(object obj);
+        Func<Tree, JToken> TryCreate(object obj);
     }
 }
