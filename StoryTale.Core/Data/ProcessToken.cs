@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace StoryTale.Core.Data
 {
-    public class Tree
+    public class ProcessToken
     {
         public JToken Global { get; set; }
-        public Dictionary<int, Server> Servers { get; set; }
-        public Node<Server> Nodes { get; set; }
+        public Dictionary<int, JToken> Outs { get; set; } = new Dictionary<int, JToken>();
     }
 }

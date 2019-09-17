@@ -15,7 +15,7 @@ namespace StoryTale.Core.Markup
             _bindings = bindings;
         }
 
-        public Func<Tree, object> Create(object obj)
+        public Func<ProcessToken, object> Create(object obj)
         {
             if(obj == null)
                 return tree => obj;

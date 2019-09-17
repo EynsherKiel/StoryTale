@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using LazyCache;
 using StoryTale.Core.Caches;
 
 namespace StoryTale.Core.Autofac
@@ -7,7 +8,8 @@ namespace StoryTale.Core.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<PipeCache>().SingleInstance();
+            builder.RegisterType<CachingService>().As<IAppCache>().SingleInstance();
+            builder.RegisterType<MarkupCache>().SingleInstance();
         }
     }
 }

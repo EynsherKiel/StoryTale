@@ -7,30 +7,34 @@ namespace StoryTale.Core.Markup
 {
     public class Process
     {
-        private readonly Tree _source;
-        private readonly IDictionary<int, Func<Tree, object>> _bindings;
+        private readonly ProcessToken _token = new ProcessToken();
 
-        public Process(Tree source, IDictionary<int, Func<Tree, object>> bindings, object global)
+        private readonly Dictionary<int, Func<ProcessToken, object>> _bindings;
+        private readonly Node<Server> _tree;
+        private readonly Map _source;
+
+        public Process(Map source, Node<Server> tree, Dictionary<int, Func<ProcessToken, object>> bindings, object global)
         {
             _bindings = bindings;
-
+            _tree = tree;
             _source = source;
-            _source.Global = global.ToLowerJToken();
+
+            _token.Global = global.ToLowerJToken();
         }
 
         public void SetOut(Server server, string @out)
         {
-            _source.Servers[server.Id].Out = @out.ToLowerJToken();
+            _token.Outs[server.Id] = @out.ToLowerJToken();
         }
 
         public IEnumerable<Server> Visit()
         {
-            return _source.Nodes.Visit(item => true);
+            return _tree.Visit(item => true);
         }
 
         public object GetIn(Server server)
         {
-            return _bindings[server.Id](_source);
+            return _bindings[server.Id](_token);
         }
     }
 }

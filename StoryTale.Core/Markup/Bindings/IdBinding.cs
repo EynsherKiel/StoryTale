@@ -6,11 +6,11 @@ namespace StoryTale.Core.Markup.Bindings
 {
     public class IdBinding : IBinding
     {
-        public Func<Tree, JToken> TryCreate(object obj)
+        public Func<ProcessToken, JToken> TryCreate(object obj)
         {
             return obj is IdBind bind ?
-                    (tree => tree.Servers[bind.Id].Out.SelectToken(bind.Path ?? string.Empty)) :
-                default(Func<Tree, JToken>);
+                    (tree => tree.Outs[bind.Id].SelectToken(bind.Path ?? string.Empty)) :
+                default(Func<ProcessToken, JToken>);
         }
     }
 }

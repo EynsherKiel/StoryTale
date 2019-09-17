@@ -3,7 +3,6 @@ using StoryTale.Core.Autofac;
 using StoryTale.Core.Handlers;
 using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace StoryTale.Tests
@@ -43,7 +42,7 @@ namespace StoryTale.Tests
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 sw.Start();
 

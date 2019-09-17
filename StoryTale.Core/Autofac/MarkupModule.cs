@@ -8,7 +8,7 @@ namespace StoryTale.Core.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ProcessesFactory>().SingleInstance();
+            builder.RegisterType<MarkupFactory>().SingleInstance();
             builder.RegisterType<BindingFactory>().SingleInstance();
         }
     }

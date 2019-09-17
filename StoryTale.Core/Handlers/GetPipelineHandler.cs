@@ -31,7 +31,6 @@ namespace StoryTale.Core.Handlers
                 in: !globalbind
                     path: null
 
-
 ...";
 
             return Task.FromResult(document);

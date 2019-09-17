@@ -25,12 +25,10 @@ namespace StoryTale.Core.Extensions
 
         public class LowerCasePropertyNameJsonReader : JsonTextReader
         {
-            public LowerCasePropertyNameJsonReader(TextReader textReader)
-                : base(textReader)
-            {
-            }
+            public LowerCasePropertyNameJsonReader(TextReader textReader) : base(textReader) { }
 
-            public override object Value => TokenType == JsonToken.PropertyName ? ((string)base.Value).ToLowerInvariant() : base.Value;
+            public override object Value 
+                => TokenType == JsonToken.PropertyName ? ((string)base.Value).ToLowerInvariant() : base.Value;
         }
     }
 }

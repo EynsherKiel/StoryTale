@@ -11,9 +11,9 @@ namespace StoryTale.Core.Handlers
     public class ExecutePipelineHandler : IRequestHandler<ExecutePipelineRequest, IList<Server>>
     {
         private readonly PipelineManager _pipe;
-        private readonly PipeCache _cache;
+        private readonly MarkupCache _cache;
 
-        public ExecutePipelineHandler(PipelineManager pipe, PipeCache cache)
+        public ExecutePipelineHandler(PipelineManager pipe, MarkupCache cache)
         {
             _pipe = pipe;
             _cache = cache;
@@ -21,9 +21,9 @@ namespace StoryTale.Core.Handlers
 
         public async Task<IList<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
         {
-            var process = await _cache.Get(request.Name, request.Global);
+            var markup = await _cache.Get(request.Name);
 
-            return await _pipe.Execute(process);
+            return await _pipe.Execute(markup.CreateProcess(request.Global));
         }
     }
 
