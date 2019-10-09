@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 
-namespace StoryTale.Core.Web
+namespace StoryTale.Core.Exceptions
 {
     public class ClientException : Exception
     {

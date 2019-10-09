@@ -1,4 +1,5 @@
-﻿using StoryTale.Core.Data;
+﻿using Newtonsoft.Json.Linq;
+using StoryTale.Core.Data;
 using StoryTale.Core.Markup.Bindings;
 using System;
 using System.Collections.Generic;
@@ -15,32 +16,46 @@ namespace StoryTale.Core.Markup
             _bindings = bindings;
         }
 
-        public Func<ProcessToken, object> Create(object obj)
+        public Func<ProcessData, JToken> Create(object obj)
         {
-            if(obj == null)
-                return tree => obj;
+            if (obj == null)
+            {
+                var empty = new JObject();
+                return tree => empty;
+            }
 
             if(obj is IDictionary<object, object> dic)
             {
                 var clone = dic.ToDictionary(
-                    el => el.Key,
+                    el => (string)el.Key,
                     el => Create(el.Value));
 
-                return tree => clone.ToDictionary(el => el.Key, el => el.Value(tree));
+                return tree =>
+                {
+                    var jobj = new JObject();
+
+                    foreach (var item in clone.Select(el => new JProperty(el.Key, el.Value(tree))))
+                    {
+                        jobj.Add(item);
+                    }
+
+                    return jobj;
+                };
             }
 
             if(obj is IEnumerable<object> enumerable)
             {
                 var clone = enumerable.Select(Create).ToArray();
 
-                return tree => clone.Select(func => func(tree)).ToArray();
+                return tree => JArray.FromObject(clone.Select(func => func(tree)));
             }
 
             var binding = _bindings.Select(el => el.TryCreate(obj)).SingleOrDefault(el => el != null);
             if (binding != null)
                 return binding;
 
-            return tree => obj;
+            var jobj = JToken.FromObject(obj);
+            return tree => jobj; // just empty
         }
     }
 }

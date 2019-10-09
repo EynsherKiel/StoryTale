@@ -4,6 +4,7 @@ using StoryTale.Core.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YamlDotNet.Serialization;
 using StoryTale.Core.Extensions;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace StoryTale.Tests
 {

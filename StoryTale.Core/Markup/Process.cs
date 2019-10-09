@@ -1,40 +1,52 @@
-﻿using StoryTale.Core.Data;
+﻿using MediatR;
+using StoryTale.Core.Data;
+using StoryTale.Core.Markup.Moduls;
 using System;
 using System.Collections.Generic;
-using StoryTale.Core.Extensions;
+using System.ComponentModel;
+using System.Text;
+using System.Threading;
 
 namespace StoryTale.Core.Markup
 {
     public class Process
     {
-        private readonly ProcessToken _token = new ProcessToken();
+        private readonly Pipeline _pipeline;
+        private readonly IMediator _mediator;
+        private readonly string _name;
 
-        private readonly Dictionary<int, Func<ProcessToken, object>> _bindings;
-        private readonly Node<Server> _tree;
-        private readonly Map _source;
-
-        public Process(Map source, Node<Server> tree, Dictionary<int, Func<ProcessToken, object>> bindings, object global)
+        public Process(string name, IMediator mediator, Pipeline pipeline)
         {
-            _bindings = bindings;
-            _tree = tree;
-            _source = source;
-
-            _token.Global = global.ToLowerJToken();
+            _pipeline = pipeline;
+            _mediator = mediator;
+            _name = name;
         }
 
-        public void SetOut(Server server, string @out)
+        public async IAsyncEnumerable<Step> Execute(object global)
         {
-            _token.Outs[server.Id] = @out.ToLowerJToken();
-        }
+            //var id = _mediator.Send(new AddProcessRequest { Name = _name });
 
-        public IEnumerable<Server> Visit()
-        {
-            return _tree.Visit(item => true);
-        }
+            await using var enumerator =  _pipeline.ExecuteProcess(global).GetAsyncEnumerator();
 
-        public object GetIn(Server server)
-        {
-            return _bindings[server.Id](_token);
+            while(true)
+            {
+                try
+                {
+                    if (!await enumerator.MoveNextAsync())
+                        break;
+                }
+                catch (Exception ex)
+                {
+                    //_mediator.Send(new AddException { Id = id, Exception = ex });
+                    throw;
+                }
+
+                var step = enumerator.Current;
+
+                //_mediator.Send(new AddStepRequest { Id = id, Step = step });
+
+                yield return step;
+            }
         }
     }
 }

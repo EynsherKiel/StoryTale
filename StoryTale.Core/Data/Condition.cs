@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StoryTale.Core.Data
+﻿namespace StoryTale.Core.Data
 {
-    public class Condition
+    public class Condition : IInputExpression
     {
+        public object In { get; set; }
+        public string Expr { get; set; }
     }
 }

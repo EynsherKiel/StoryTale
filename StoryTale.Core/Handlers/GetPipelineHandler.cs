@@ -19,26 +19,112 @@ namespace StoryTale.Core.Handlers
             // getting from database
             var document = @"---
 
-            rootId: 2
+            rootId: 1
             
-            servers:
-
+            containers:
+            -   
+                id: 1
+                name: Сервер коэффициентов
+                when:
+                    isGenerateException: yes
+                    name: Test
+                    condition:
+                        in:
+                            x: !!int 17
+                            y: !globalbind
+                                path: attribute.id
+                        expr: int(x) > int(y)
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
+                    -
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
+                asserts:
+                -
+                    isGenerateException: no
+                    name: Test
+                    condition:
+                        in:
+                            x: !!int 17
+                            y: !globalbind
+                                path: attribute.id
+                        expr: int(x) < int(y)
             -   
                 id: 2
-                parentId: 1
-                uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
-                httpMethod: Post
-                in: 
-                -
-                    tablename: !globalbind
-                        path: tablename
-                    parameters:
+                parentIds: [1]
+                name: Сервер коэффициентов 2
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
                     -
-                        attributeid: !globalbind
-                            path: attribute.id
-                        attributevalue: !globalbind
-                            path: attribute.value
-
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
+            -   
+                id: 3
+                parentIds: [1]
+                name: Сервер коэффициентов 3
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
+                    -
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
+            -   
+                id: 4
+                parentIds: [2, 3]
+                name: Сервер коэффициентов 4
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
+                    -
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
+            -   
+                id: 5
+                parentIds: [4]
+                name: Сервер коэффициентов 5
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
+                    -
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
 ...";
 
             return Task.FromResult(document);

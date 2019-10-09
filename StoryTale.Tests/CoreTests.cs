@@ -42,11 +42,11 @@ namespace StoryTale.Tests
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1; i++)
             {
                 sw.Start();
 
-                await _mediator.Send(new ExecutePipelineRequest
+                var list = await _mediator.Send(new ExecutePipelineRequest
                 {
                     Name = "test",
                     Global =  new
@@ -59,6 +59,11 @@ namespace StoryTale.Tests
                         }
                     }
                 });
+
+                await foreach (var item in list)
+                {
+                    System.Console.WriteLine($"{sw.Elapsed} : {Newtonsoft.Json.JsonConvert.SerializeObject(item)}");
+                }
 
                 System.Console.WriteLine(sw.Elapsed);
                 sw.Reset();

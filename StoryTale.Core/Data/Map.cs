@@ -6,6 +6,6 @@ namespace StoryTale.Core.Data
     {
         public object Global { get; set; }
         public int RootId { get; set; }
-        public List<Server> Servers { get; set; }
+        public List<Container> Containers { get; set; }
     } 
 }

@@ -16,11 +16,10 @@ namespace StoryTale.Core.Extensions
 
         public static JToken ToLowerJToken(this string json)
         {
-            using (var textReader = new StringReader(json))
-            using (var jsonReader = new LowerCasePropertyNameJsonReader(textReader))
-            {
-                return new JsonSerializer().Deserialize<JToken>(jsonReader);
-            }
+            using var textReader = new StringReader(json);
+            using var jsonReader = new LowerCasePropertyNameJsonReader(textReader);
+
+            return new JsonSerializer().Deserialize<JToken>(jsonReader);
         }
 
         public class LowerCasePropertyNameJsonReader : JsonTextReader

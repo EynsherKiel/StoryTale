@@ -10,7 +10,6 @@ namespace StoryTale.Core.Autofac
                 .RegisterModule<MediatorModule>()
                 .RegisterModule<DatabaseModule>()
                 .RegisterModule<YamlModule>()
-                .RegisterModule<PipeModule>()
                 .RegisterModule<CashesModule>()
                 .RegisterModule<WebModule>()
                 .RegisterModule<MarkupModule>();

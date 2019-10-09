@@ -6,6 +6,6 @@ namespace StoryTale.Core.Markup.Bindings
 {
     public interface IBinding
     {
-        Func<ProcessToken, JToken> TryCreate(object obj);
+        Func<ProcessData, JToken> TryCreate(object obj);
     }
 }

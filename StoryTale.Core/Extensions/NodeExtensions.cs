@@ -1,4 +1,5 @@
 ﻿using StoryTale.Core.Data;
+using StoryTale.Core.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,13 @@ namespace StoryTale.Core.Extensions
 {
     public static class NodeExtensions
     {
-        public static Node<Server> GetTree(this Map map)
+        public static Node<Container> GetTree(this Map map)
             => map
-                .Servers
-                .GetTrees(el => el.Id, el => el.ParentId)
+                .Containers
+                .GetTrees(el => el.Id, el => el.ParentIds)
                 .Single(el => el.Current.Id == map.RootId);
 
-        public static IList<Node<T>> GetTrees<T>(this IEnumerable<T> leafs, Func<T, int> getId, Func<T, int?> getParentId)
+        public static IList<Node<T>> GetTrees<T>(this IEnumerable<T> leafs, Func<T, int> getId, Func<T, int[]> getParentIds)
         {
             var list = new List<Node<T>>();
 
@@ -21,28 +22,33 @@ namespace StoryTale.Core.Extensions
 
             foreach (var currentNode in nodesDictionary.Values)
             {
-                var parentId = getParentId(currentNode.Current);
+                var parents = getParentIds(currentNode.Current);
 
-                if (!parentId.HasValue || !nodesDictionary.TryGetValue(parentId.Value, out var parentNode))
+                if(parents == null)
                 {
                     list.Add(currentNode);
                     continue;
                 }
 
-                parentNode.Childrens.Add(currentNode);
+                foreach (var parent in parents)
+                {
+                    if(!nodesDictionary.TryGetValue(parent, out var parentNode))
+                    {
+                        list.Add(currentNode);
+                        continue;
+                    }
+
+                    parentNode.Childrens.Add(currentNode);
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<T> Visit<T>(this Node<T> node, Predicate<T> chooseChild)
-        {
-            while (node != null)
-            {
-                yield return node.Current;
+        public static bool CheckPath(this ProcessToken token, Node<Container> node)
+            => token.CheckPath(node.Current.ParentIds);
 
-                node = node.Childrens.SingleOrDefault(child => chooseChild(child.Current));
-            }
-        }
+        public static void AddPath(this ProcessToken token, Node<Container> node)
+            => token.AddPath(node.Current.Id);
     }
 }

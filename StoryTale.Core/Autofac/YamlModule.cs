@@ -15,7 +15,7 @@ namespace StoryTale.Core.Autofac
                     .WithNamingConvention(new CamelCaseNamingConvention())
                     .WithTagMapping<GlobalBind>()
                     .WithTagMapping<IdBind>()
-                    .WithTagMapping<Condition>()
+                    .WithTagMapping<Server>()
                     .Build()).SingleInstance();
         }
     }

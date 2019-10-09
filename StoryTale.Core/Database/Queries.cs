@@ -28,14 +28,13 @@ namespace StoryTale.Core.Database
 
         private async Task<T> With<T>(Func<IDbConnection, Task<T>> func, CancellationToken token)
         {
-            using (var connection = _connectionManager.GetDb())
-            {
-                connection.Open();
+            using var connection = _connectionManager.GetDb();
 
-                token.ThrowIfCancellationRequested();
+            connection.Open();
 
-                return await func(connection);
-            }
+            token.ThrowIfCancellationRequested();
+
+            return await func(connection);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace StoryTale.Core.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<CachingService>().As<IAppCache>().SingleInstance();
-            builder.RegisterType<MarkupCache>().SingleInstance();
+            builder.RegisterType<PipelineCache>().SingleInstance();
         }
     }
 }

@@ -1,33 +1,31 @@
-﻿using StoryTale.Core.Caches;
-using StoryTale.Core.Data;
-using StoryTale.Core.Pipe;
-using MediatR;
+﻿using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using StoryTale.Core.Data;
+using StoryTale.Core.Markup;
+using StoryTale.Core.Caches;
 
 namespace StoryTale.Core.Handlers
 {
-    public class ExecutePipelineHandler : IRequestHandler<ExecutePipelineRequest, IList<Server>>
+    public class ExecutePipelineHandler : IRequestHandler<ExecutePipelineRequest, IAsyncEnumerable<Step>>
     {
-        private readonly PipelineManager _pipe;
-        private readonly MarkupCache _cache;
+        private readonly PipelineCache _cache;
 
-        public ExecutePipelineHandler(PipelineManager pipe, MarkupCache cache)
+        public ExecutePipelineHandler(PipelineCache cache)
         {
-            _pipe = pipe;
             _cache = cache;
         }
 
-        public async Task<IList<Server>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
+        public async Task<IAsyncEnumerable<Step>> Handle(ExecutePipelineRequest request, CancellationToken cancellationToken)
         {
-            var markup = await _cache.Get(request.Name);
+            var process = await _cache.Get(request.Name);
 
-            return await _pipe.Execute(markup.CreateProcess(request.Global));
+            return process.Execute(request.Global);
         }
     }
 
-    public class ExecutePipelineRequest : IRequest<IList<Server>>
+    public class ExecutePipelineRequest : IRequest<IAsyncEnumerable<Step>>
     {
         public string Name { get; set; }
         public object Global { get; set; }
