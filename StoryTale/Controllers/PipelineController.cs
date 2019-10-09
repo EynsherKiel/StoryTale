@@ -32,6 +32,15 @@ namespace StoryTale.Controllers
                 yield return item;
             }
         }
+
+        [HttpPost]
+        public async IAsyncEnumerable<Step> TryExecutePipeline([FromBody]TryExecutePipelineRequest request)
+        {
+            await foreach (var item in await _mediator.Send(request))
+            {
+                yield return item;
+            }
+        }
          
         // todo: SavePipeline string name, string yaml
     }

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StoryTale.Core.Data;
+﻿using StoryTale.Core.Data;
 using StoryTale.Core.Services;
 using System.Threading.Tasks;
 
@@ -7,15 +6,17 @@ namespace StoryTale.Core.Markup.Moduls
 {
     public class ServerModule
     {
-        private readonly ServiceInvoker _invoker;
+        private readonly IServiceInvoker _invoker;
 
-        public ServerModule(ServiceInvoker invoker)
+        public ServerModule(IServiceInvoker invoker)
         {
             _invoker = invoker;
         }
 
-        public Task<string> Execute(Server current, JToken @in)
+        public Task<string> Execute(Server current, ProcessToken token)
         {
+            var @in = token.GetIn(current);
+
             return _invoker.Execute(current, @in); 
         }
     }

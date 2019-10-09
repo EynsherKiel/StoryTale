@@ -9,7 +9,7 @@ namespace StoryTale.Core.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<Client>().SingleInstance();
-            builder.RegisterType<ServiceInvoker>().SingleInstance();
+            builder.RegisterType<ServiceInvoker>().As<IServiceInvoker>().SingleInstance();
         }
     }
 }
