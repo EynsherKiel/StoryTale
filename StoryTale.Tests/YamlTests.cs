@@ -12,27 +12,44 @@ namespace StoryTale.Tests
     public class YamlTests
     {
         private const string _document = @"---
-            global: 
-                nAmE: null
-                date: null
-
             rootId: 1
             
-            servers:
+            containers:
             -   
                 id: 1
-                parentId: null
-                uri: https://vk.com/feed
-                httpMethod: Get
-                in: 
-                    date: !globalbind
-                        path: 
-                            - date
-                    global: !globalbind
-                        path: null
-                out:
-                    carid: null
-                    name: null
+                name: Сервер коэффициентов
+                when:
+                    isGenerateException: yes
+                    name: Test
+                    condition:
+                        in:
+                            x: !!int 17
+                            y: !globalbind
+                                path: attribute.id
+                        expr: int(x) > int(y)
+                server: 
+                    uri: http://192.168.5.10:19081/iRIS.InsuranceApp/iRIS.InsuranceApp.CoefficientService.Host/api/coefficient/get
+                    httpMethod: Post
+                    in: 
+                    -
+                        tablename: !globalbind
+                            path: tablename
+                        parameters:
+                        -
+                            attributeid: !globalbind
+                                path: attribute.id
+                            attributevalue: !globalbind
+                                path: attribute.value
+                asserts:
+                -
+                    isGenerateException: no
+                    name: Test
+                    condition:
+                        in:
+                            x: !!int 17
+                            y: !globalbind
+                                path: attribute.id
+                        expr: int(x) < int(y)
 ...";
 
         private IContainer _container;
@@ -58,10 +75,9 @@ namespace StoryTale.Tests
         [TestMethod]
         public void MapDeserializeSuccess()
         {
-            var map = _deserializer.Deserialize<object>(_document);
+            var map = _deserializer.Deserialize<Map>(_document);
 
             Assert.IsNotNull(map);
-            //Assert.IsTrue(map.Servers.Count == 2);
         }
 
         [TestMethod]
@@ -71,7 +87,6 @@ namespace StoryTale.Tests
                 .GetTree();
 
             Assert.IsNotNull(tree);
-            Assert.IsTrue(tree.Childrens.Count == 1);
         }
     }
 }

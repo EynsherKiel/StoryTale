@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace StoryTale.Core.Services
 {
-    public class ServiceInvoker
+    public class ServiceInvoker : IServiceInvoker
     {
-        private static readonly System.Random random = new System.Random();
         private readonly Client _client;
 
         public ServiceInvoker(Client client)
@@ -15,13 +14,9 @@ namespace StoryTale.Core.Services
             _client = client;
         }
 
-        public async Task<string> Execute(Server server, JToken @in)
+        public Task<string> Execute(Server server, JToken @in)
         {
-            //return _client.Invoke(server.Uri, server.HttpMethod, @in);
-
-            await Task.Delay(random.Next(100,400));
-
-            return await Task.FromResult("[{\"tableName\":\"Age\",\"uniqueId\":null,\"value\":1.000000}]");
+            return _client.Invoke(server.Uri, server.HttpMethod, @in);
         }
     }
 }

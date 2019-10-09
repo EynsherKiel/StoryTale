@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using StoryTale.Core.Data;
-using StoryTale.Core.Markup;
 using StoryTale.Core.Caches;
 
 namespace StoryTale.Core.Handlers

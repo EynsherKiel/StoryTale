@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StoryTale.Core.Data;
+﻿using StoryTale.Core.Data;
 using StoryTale.Core.Extensions;
 using StoryTale.Core.Markup.Moduls;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace StoryTale.Core.Markup
         // todo: Add Chain architecture
         // -- pipe.Next() -> nothing or element
         // -- like ienumerator, but without idisposable
-        // -- it's work little bit lower, but more clearance architecture
+        // -- it's will be work little bit lower, but more clearance architecture
         // --
         // -- and inside work with exceptions... fuck
         public async IAsyncEnumerable<Step> ExecuteProcess(object global)
@@ -42,11 +41,11 @@ namespace StoryTale.Core.Markup
             
             var token = new ProcessToken(global, _bindingMap);
 
-            async Task<(string @out, Node<Container> current)> ProcessAsync(Node<Container> node, JToken @in) 
-                => (await _serverModule.Execute(node.Current.Server, @in), node);
+            static async Task<(string @out, Node<Container> current)> ProcessAsync(Task<string> task, Node<Container> node) 
+                => (await task, node);
 
             Task<(string @out, Node<Container> current)> Process(Node<Container> node) 
-                => ProcessAsync(node, token.GetIn(node.Current.Server));
+                => ProcessAsync(_serverModule.Execute(node.Current.Server, token), node);
 
             var check = _tree.Current.When.Check(token, _tree.Current);
 

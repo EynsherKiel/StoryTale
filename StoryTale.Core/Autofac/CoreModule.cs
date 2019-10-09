@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace StoryTale.Core.Autofac
 {
@@ -7,7 +8,7 @@ namespace StoryTale.Core.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder
-                .RegisterModule<MediatorModule>()
+                .AddMediatR(typeof(CoreModule).Assembly)
                 .RegisterModule<DatabaseModule>()
                 .RegisterModule<YamlModule>()
                 .RegisterModule<CashesModule>()
