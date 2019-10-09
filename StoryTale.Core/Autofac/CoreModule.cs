@@ -7,6 +7,10 @@ namespace StoryTale.Core.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
+
+            builder.RegisterAssemblyTypes(typeof(MarkupModule).Assembly)
+                   .AsImplementedInterfaces();
+
             builder
                 .AddMediatR(typeof(CoreModule).Assembly)
                 .RegisterModule<DatabaseModule>()
