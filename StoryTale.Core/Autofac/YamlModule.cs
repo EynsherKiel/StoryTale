@@ -12,7 +12,7 @@ namespace StoryTale.Core.Autofac
         {
             builder.Register(context =>
                 new DeserializerBuilder()
-                    .WithNamingConvention(new CamelCaseNamingConvention())
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
                     .WithTagMapping<GlobalBind>()
                     .WithTagMapping<IdBind>()
                     .WithTagMapping<Server>()
