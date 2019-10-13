@@ -1,6 +1,6 @@
-import * as React from 'react';
-import Home from './components/Home';
+import * as React from 'react'; 
+import { Flow } from './Graph/Flow';
 
-const App: React.FC = () => (<Home/>);
+const App: React.FC = () => (<Flow/>);
 
 export default App;
