@@ -1,5 +1,6 @@
-﻿import React from 'react';
+import * as React from 'react';
+import Home from './components/Home';
 
-const App: React.FC = () => (<div>Hello React!</div>);
+const App: React.FC = () => (<Home/>);
 
 export default App;
