@@ -1,0 +1,11 @@
+﻿
+
+.outer {
+    padding: 30px;
+}
+
+.input {
+    padding: 10px;
+    border: 1px solid cornflowerblue;
+    width: 100%;
+}
