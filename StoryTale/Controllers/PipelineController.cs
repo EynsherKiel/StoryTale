@@ -41,7 +41,7 @@ namespace StoryTale.Controllers
                 yield return item;
             }
         }
-         
+
         // todo: SavePipeline string name, string yaml
     }
 }
