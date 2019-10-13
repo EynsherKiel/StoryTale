@@ -90,6 +90,9 @@ const NodeInnerCustom = ({ node, config }: INodeInnerDefaultProps) => {
                 <input className={style.input}
                     type="text"
                     placeholder="Some Input"
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseUp={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
                 />
             </div>
         )
