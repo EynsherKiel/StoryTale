@@ -1,119 +1,130 @@
 import * as React from 'react';
-import { actions, FlowChart, INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
-import { cloneDeep, mapValues } from 'lodash';
 import style from "./Flow.module.css"
+import {
+    GraphView, // required
+    Edge, // optional
+    IEdge, // optional
+    Node, // optional
+    INode, // optional
+    LayoutEngineType, // required to change the layoutEngineType, otherwise optional
+    BwdlTransformer, // optional, Example JSON transformer
+    GraphUtils // optional, useful utility functions
+} from 'react-digraph';
 
-const chartSimple = {
-    offset: {
-        x: 0,
-        y: 0
-    },
-
-    nodes: {
-        node1: {
-            id: "node1",
-            type: "output-only",
-            position: {
-                x: 300,
-                y: 100
-            },
-            ports: {
-                port1: {
-                    id: "port1",
-                    type: "output",
-                    properties: {
-                        value: "yes"
-                    }
-                },
-                port2: {
-                    id: "port2",
-                    type: "output",
-                    properties: {
-                        value: "no"
-                    }
-                }
-            }
+const GraphConfig = {
+    NodeTypes: {
+        empty: { // required to show empty nodes
+            typeText: "None",
+            shapeId: "#empty", // relates to the type property of a node
+            shape: (
+                <symbol viewBox="0 0 100 100" id="empty" key="0">
+                    <circle cx="50" cy="50" r="45"></circle>
+                </symbol>
+            )
         },
-        node2: {
-            id: "node2",
-            type: "input-output",
-            position: {
-                x: 300,
-                y: 300
-            },
-            ports: {
-                port1: {
-                    id: "port1",
-                    type: "input"
-                },
-                port2: {
-                    id: "port2",
-                    type: "output"
-                }
-            }
-        },
+        custom: { // required to show empty nodes
+            typeText: "Custom",
+            shapeId: "#custom", // relates to the type property of a node
+            shape: (
+                <symbol viewBox="0 0 50 25" id="custom" key="0">
+                    <ellipse cx="50" cy="25" rx="50" ry="25"></ellipse>
+                </symbol>
+            )
+        }
     },
-    links: {
-        link1: {
-            id: "link1",
-            from: {
-                nodeId: "node1",
-                portId: "port2"
-            },
-            to: {
-                nodeId: "node2",
-                portId: "port1"
-            },
-        },
-    },
-    selected: {},
-    hovered: {}
-};
-
-/**
- * Create the custom component,
- * Make sure it has the same prop signature
- */
-const NodeInnerCustom = ({ node, config }: INodeInnerDefaultProps) => {
-    if (node.type === 'output-only') {
-        return (
-            <div className={style.outer}>
-                <p>Use Node inner to customise the content of the node</p>
-            </div>
-        )
-    } else {
-        return (
-            <div className={style.outer}>
-                <p>Add custom displays for each node.type</p>
-                <p>You may need to stop event propagation so your forms work.</p>
-                <br />
-                <input className={style.input}
-                    type="text"
-                    placeholder="Some Input"
-                    onClick={(e) => e.stopPropagation()}
-                    onMouseUp={(e) => e.stopPropagation()}
-                    onMouseDown={(e) => e.stopPropagation()}
-                />
-            </div>
-        )
+    NodeSubtypes: {},
+    EdgeTypes: {
+        emptyEdge: {  // required to show empty edges
+            shapeId: "#emptyEdge",
+            shape: (
+                <symbol viewBox="0 0 50 50" id="emptyEdge" key="0">
+                    <circle cx="25" cy="25" r="8" fill="currentColor"> </circle>
+                </symbol>
+            )
+        }
     }
 }
 
-export class Flow extends React.Component {
-    public state = cloneDeep(chartSimple)
-    public render() {
-        const chart = this.state
-        const stateActions = mapValues(actions, (func: any) =>
-            (...args: any) => this.setState(func(...args))) as typeof actions
+const NODE_KEY = "id"       // Allows D3 to correctly update DOM
 
-        return ( 
-                <FlowChart
-                    chart={chart}
-                    callbacks={stateActions}
-                    Components={{
-                        NodeInner: NodeInnerCustom,
-                    }}
-                /> 
-        )
+interface IState {
+    selected: any,
+    graph:any
+}
+
+export class Flow extends React.Component<{}, IState> {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            graph: {
+                "nodes": [
+                    {
+                        "id": 1,
+                        "title": "Node A",
+                        "x": 258.3976135253906,
+                        "y": 331.9783248901367,
+                        "type": "empty"
+                    },
+                    {
+                        "id": 2,
+                        "title": "Node B",
+                        "x": 593.9393920898438,
+                        "y": 260.6060791015625,
+                        "type": "empty"
+                    },
+                    {
+                        "id": 3,
+                        "title": "Node C",
+                        "x": 237.5757598876953,
+                        "y": 61.81818389892578,
+                        "type": "custom"
+                    },
+                    {
+                        "id": 4,
+                        "title": "Node C",
+                        "x": 600.5757598876953,
+                        "y": 600.81818389892578,
+                        "type": "custom"
+                    }
+                ],
+                "edges": [
+                    {
+                        "source": 1,
+                        "target": 2,
+                        "type": "emptyEdge"
+                    },
+                    {
+                        "source": 2,
+                        "target": 4,
+                        "type": "emptyEdge"
+                    }
+                ]
+            },
+            selected: {}
+        }
     }
+
+    render() {
+        const nodes = this.state.graph.nodes;
+        const edges = this.state.graph.edges;
+        const selected = this.state.selected;
+
+        const NodeTypes = GraphConfig.NodeTypes;
+        const NodeSubtypes = GraphConfig.NodeSubtypes;
+        const EdgeTypes = GraphConfig.EdgeTypes;
+
+        return (
+                <GraphView  
+                    nodeKey={NODE_KEY}
+                    nodes={nodes}
+                    edges={edges}
+                    selected={selected}
+                    nodeTypes={NodeTypes}
+                    nodeSubtypes={NodeSubtypes}
+                        edgeTypes={EdgeTypes} />
+        );
+    }
+
 }
