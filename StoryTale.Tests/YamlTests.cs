@@ -1,9 +1,8 @@
-﻿using Autofac;
-using StoryTale.Core.Autofac;
-using StoryTale.Core.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YamlDotNet.Serialization;
+using StoryTale.Core.Data;
 using StoryTale.Core.Extensions;
+using YamlDotNet.Serialization;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace StoryTale.Tests
@@ -52,24 +51,25 @@ namespace StoryTale.Tests
                         expr: int(x) < int(y)
 ...";
 
-        private IContainer _container;
+        private ServiceProvider _provider;
         private IDeserializer _deserializer;
 
         [TestInitialize]
         public void Init()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule<CoreModule>();
+            var services = new ServiceCollection();
 
-            _container = builder.Build();
+            services.AddStoryTale();
 
-            _deserializer = _container.Resolve<IDeserializer>();
+            _provider = services.BuildServiceProvider();
+
+            _deserializer = _provider.GetService<IDeserializer>();
         }
 
         [TestCleanup]
         public void Clean()
         {
-            _container.Dispose();
+            _provider.Dispose();
         }
 
         [TestMethod]

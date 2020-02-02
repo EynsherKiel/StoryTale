@@ -1,45 +1,46 @@
-﻿using Autofac;
-using StoryTale.Core.Autofac;
-using StoryTale.Core.Handlers;
-using MediatR;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using StoryTale.Core.Services;
+using Moq;
 using Newtonsoft.Json.Linq;
 using StoryTale.Core.Data;
+using StoryTale.Core.Extensions;
+using StoryTale.Core.Handlers;
+using StoryTale.Core.Services;
+using StoryTale.Tests.Extensions;
+using System.Threading.Tasks;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using Moq;
 
 namespace StoryTale.Tests
 {
     [TestClass]
     public class CoreTests
     {
-        private IContainer _container;
+        private ServiceProvider _provider;
         private IMediator _mediator;
 
         [TestInitialize]
         public void Init()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule<CoreModule>();
+            var services = new ServiceCollection();
 
-            var mock = new Mock<IServiceInvoker>();
+            services.AddStoryTale();
 
-            mock.Setup(x => x.Execute(It.IsAny<Server>(), It.IsAny<JToken>()))
-                .ReturnsAsync("[{\"tableName\":\"Age\",\"uniqueId\":null,\"value\":1.000000}]");
+            services.MockSingleton<IServiceInvoker>(mock =>
+            {
+                mock.Setup(x => x.Execute(It.IsAny<Server>(), It.IsAny<JToken>()))
+                    .ReturnsAsync("[{\"tableName\":\"Age\",\"uniqueId\":null,\"value\":1.000000}]");
+            });
 
-            builder.RegisterInstance(mock.Object).As<IServiceInvoker>().SingleInstance();
+            _provider = services.BuildServiceProvider();
 
-            _container = builder.Build();
-
-            _mediator = _container.Resolve<IMediator>();
+            _mediator = _provider.GetService<IMediator>();
         }
 
         [TestCleanup]
         public void Clean()
         {
-            _container.Dispose();
+            _provider.Dispose();
         }
 
         [TestMethod]

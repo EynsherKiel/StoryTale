@@ -9,9 +9,9 @@ namespace StoryTale.Core.Markup
 {
     public class BindingFactory
     {
-        private readonly IList<IBinding> _bindings;
+        private readonly IEnumerable<IBinding> _bindings;
 
-        public BindingFactory(IList<IBinding> bindings)
+        public BindingFactory(IEnumerable<IBinding> bindings)
         {
             _bindings = bindings;
         }
