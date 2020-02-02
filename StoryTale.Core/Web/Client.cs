@@ -1,11 +1,10 @@
-﻿using StoryTale.Core.Extensions;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json.Linq;
 using System.Dynamic;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace StoryTale.Core.Web
 {
@@ -15,7 +14,7 @@ namespace StoryTale.Core.Web
         {
             var response = await SendAsync(uri, method, parameters, token);
 
-            await response.ThrowIfNotSuccessAsync(token);
+            response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadAsStringAsync();
         }

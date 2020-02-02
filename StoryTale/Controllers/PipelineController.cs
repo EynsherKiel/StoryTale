@@ -34,5 +34,11 @@ namespace StoryTale.Controllers
         }
 
         // todo: SavePipeline string name, string yaml
+
+        [HttpGet]
+        public async Task<ActionResult<string>> GetPipeline(string text)
+        {
+            return await Task.FromResult(text);
+        }
     }
 }
