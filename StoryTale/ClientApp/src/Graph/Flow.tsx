@@ -116,15 +116,19 @@ export class Flow extends React.Component<{}, IState> {
         const EdgeTypes = GraphConfig.EdgeTypes;
 
         return (
-            <div className={style.container}>
-                <GraphView  
-                    nodeKey={NODE_KEY}
-                    nodes={nodes}
-                    edges={edges}
-                    selected={selected}
-                    nodeTypes={NodeTypes}
-                    nodeSubtypes={NodeSubtypes}
-                    edgeTypes={EdgeTypes} />
+            <div className={style.wrapper}>
+                <div className={style.one}>
+                    <div className={style.container}>
+                        <GraphView  
+                            nodeKey={NODE_KEY}
+                            nodes={nodes}
+                            edges={edges}
+                            selected={selected}
+                            nodeTypes={NodeTypes}
+                            nodeSubtypes={NodeSubtypes}
+                            edgeTypes={EdgeTypes} />
+                    </div>
+                </div>
             </div>
         );
     }

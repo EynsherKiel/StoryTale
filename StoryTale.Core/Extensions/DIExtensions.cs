@@ -47,10 +47,6 @@ namespace StoryTale.Core.Extensions
                 .AddClasses(classes => classes.AssignableTo<IBinding>())
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime());
-
-            //builder.RegisterAssemblyTypes(typeof(MarkupModule).Assembly)
-            //       .AsImplementedInterfaces();
-
         }
     }
 }
