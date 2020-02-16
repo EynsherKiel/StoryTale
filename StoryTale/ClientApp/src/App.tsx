@@ -1,6 +1,5 @@
 import * as React from 'react'; 
 import {
-
     BrowserRouter as Router,
     Switch,
     Route,
@@ -14,18 +13,10 @@ const App: React.FC = () => (
         <div className={style.wrapper}> 
 
             <header className={style.header}>
-                <nav>
-                    <ul>
-                        <li>
-                            <NavLink exact activeClassName={style.current} to="/">Home</NavLink>
-                        </li>
-                        <li>
-                            <NavLink exact activeClassName={style.current} to="/about">About</NavLink>
-                        </li>
-                        <li>
-                            <NavLink exact activeClassName={style.current} to="/dashboard">Dashboard</NavLink>
-                        </li>
-                    </ul>
+                <nav className={style.navbar}>
+                    <NavLink exact className={style.navLink} activeClassName={style.navLinkActive} to="/">Home</NavLink>
+                    <NavLink exact className={style.navLink} activeClassName={style.navLinkActive} to="/about">About</NavLink>
+                    <NavLink exact className={style.navLink} activeClassName={style.navLinkActive} to="/dashboard">Dashboard</NavLink>
                 </nav>
             </header> 
                  
@@ -47,7 +38,7 @@ const App: React.FC = () => (
                 </Switch>
             </main>
 
-            <footer className={style.footer}>Footer</footer>
+            <footer className={style.footer} />
         </div>
     </Router>
 );

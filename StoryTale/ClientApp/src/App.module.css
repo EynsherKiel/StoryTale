@@ -14,7 +14,7 @@
 }
 
 .header {
-    background-color: navy; 
+    background-color: transparent; 
     max-height: 200px;
 }
 
@@ -23,6 +23,36 @@
 }
 
 .footer {
-    background-color: darkred;
+    background-color: #eceff1;
     max-height: 200px;
+    min-height: 15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    margin: 5px 0px 0px 0px;
+}
+
+.navbar {
+    margin: 0px 0px 5px 0px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: #eceff1;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.navLink {
+    margin: 0px 10px 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px 10px 3px 10px;
+    color: #181818;
+    border-bottom: 3px solid transparent;
+}
+
+.navLink:hover {
+    transform: translateY(-2px);
+}
+
+.navLinkActive {
+    border-bottom: 2px solid #29b6f6;
+    transition: border-bottom .5s ease-in-out;
 }
