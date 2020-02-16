@@ -4,7 +4,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    NavLink 
 } from "react-router-dom";
 import { Flow } from './Graph/Flow';
 import style from "./App.module.css"
@@ -13,23 +13,21 @@ const App: React.FC = () => (
     <Router>
         <div className={style.wrapper}> 
 
-            <div className={style.header}> 
-                <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/about">About</Link>
-                            </li>
-                            <li>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> 
-            </div> 
+            <header className={style.header}>
+                <nav>
+                    <ul>
+                        <li>
+                            <NavLink exact activeClassName={style.current} to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <NavLink exact activeClassName={style.current} to="/about">About</NavLink>
+                        </li>
+                        <li>
+                            <NavLink exact activeClassName={style.current} to="/dashboard">Dashboard</NavLink>
+                        </li>
+                    </ul>
+                </nav>
+            </header> 
                  
             <main className={style.main}>
                 <Switch>
@@ -49,7 +47,7 @@ const App: React.FC = () => (
                 </Switch>
             </main>
 
-            <div className={style.footer}><div >Footer</div></div>
+            <footer className={style.footer}>Footer</footer>
         </div>
     </Router>
 );
