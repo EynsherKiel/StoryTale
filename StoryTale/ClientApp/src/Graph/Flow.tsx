@@ -119,6 +119,9 @@ export class Flow extends React.Component<{}, IState> {
 
         return (
             <div className={style.wrapper}>
+                <div className={style.left}>
+                    Some controls
+                </div>
                 <div className={style.one}>
                     <div className={style.container}>
                         <GraphView  

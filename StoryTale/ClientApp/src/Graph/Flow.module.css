@@ -1,14 +1,22 @@
 ﻿
+
 .wrapper {
-    display: grid; 
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 100%;
     height: 100%;
-    padding: 0;
-    margin: 0; 
+    width: 100%;
+    font-family: Avenir Next, SegoeUI, sans-serif;
 }
 
-.one {
-    grid-column: 1;
-    grid-row: 1;
+.left {
+    border-right: 0.7px solid red;
+    padding: 10px;
+    min-width: 250px;
+}
+
+.one { 
     position: relative;
     padding: 0;
     margin: 0;
