@@ -1,35 +1,28 @@
 import * as React from 'react'; 
 import {
-
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    NavLink 
 } from "react-router-dom";
 import { Flow } from './Graph/Flow';
 import style from "./App.module.css"
+
+const Link: React.FC<{to: string, content: any }> = ({ to, content }) => (
+    <NavLink exact className={style.navLink} activeClassName={style.navLinkActive} to={to}>{content}</NavLink>
+);
 
 const App: React.FC = () => (
     <Router>
         <div className={style.wrapper}> 
 
-            <div className={style.header}> 
-                <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/about">About</Link>
-                            </li>
-                            <li>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> 
-            </div> 
+            <header className={style.header}>
+                <nav className={style.navbar}>
+                    <Link to="/" content="Home" />
+                    <Link to="/dashboard" content="Dashboard" />
+                    <Link to="/about" content="About" />
+                </nav>
+            </header> 
                  
             <main className={style.main}>
                 <Switch>
@@ -37,9 +30,9 @@ const App: React.FC = () => (
                         <Flow />
                     </Route>
                     <Route path="/about">
-                    <div>
-                        about
-                    </div>
+                        <div>
+                            about
+                        </div>
                     </Route>
                     <Route path="/dashboard">
                         <div>
@@ -49,7 +42,7 @@ const App: React.FC = () => (
                 </Switch>
             </main>
 
-            <div className={style.footer}><div >Footer</div></div>
+            <footer className={style.footer} />
         </div>
     </Router>
 );
