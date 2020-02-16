@@ -119,28 +119,26 @@ export class Flow extends React.Component<{}, IState> {
 
         return (
             <div className={style.wrapper}>
-                <div className={style.left}>
-                    Some controls
+                <div className={style.container}>
+                    <GraphView  
+                        nodeKey={NODE_KEY}
+                        nodes={nodes}
+                        edges={edges}
+                        selected={selected}
+                        nodeTypes={NodeTypes}
+                        nodeSubtypes={NodeSubtypes}
+                        edgeTypes={EdgeTypes}
+                        onSelectNode={this.Empty}
+                        onCreateNode={this.Empty}
+                        onUpdateNode={this.Empty}
+                        onDeleteNode={this.Empty}
+                        onSelectEdge={this.Empty}
+                        onCreateEdge={this.Empty}
+                        onSwapEdge={this.Empty}
+                        onDeleteEdge={this.Empty} />
                 </div>
-                <div className={style.one}>
-                    <div className={style.container}>
-                        <GraphView  
-                            nodeKey={NODE_KEY}
-                            nodes={nodes}
-                            edges={edges}
-                            selected={selected}
-                            nodeTypes={NodeTypes}
-                            nodeSubtypes={NodeSubtypes}
-                            edgeTypes={EdgeTypes}
-                            onSelectNode={this.Empty}
-                            onCreateNode={this.Empty}
-                            onUpdateNode={this.Empty}
-                            onDeleteNode={this.Empty}
-                            onSelectEdge={this.Empty}
-                            onCreateEdge={this.Empty}
-                            onSwapEdge={this.Empty}
-                            onDeleteEdge={this.Empty} />
-                    </div>
+                <div className={style.components}>
+                    Some controls
                 </div>
             </div>
         );
