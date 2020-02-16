@@ -106,6 +106,8 @@ export class Flow extends React.Component<{}, IState> {
         }
     }
 
+    private Empty = (x: any) => { };
+
     render() {
         const nodes = this.state.graph.nodes;
         const edges = this.state.graph.edges;
@@ -126,7 +128,15 @@ export class Flow extends React.Component<{}, IState> {
                             selected={selected}
                             nodeTypes={NodeTypes}
                             nodeSubtypes={NodeSubtypes}
-                            edgeTypes={EdgeTypes} />
+                            edgeTypes={EdgeTypes}
+                            onSelectNode={this.Empty}
+                            onCreateNode={this.Empty}
+                            onUpdateNode={this.Empty}
+                            onDeleteNode={this.Empty}
+                            onSelectEdge={this.Empty}
+                            onCreateEdge={this.Empty}
+                            onSwapEdge={this.Empty}
+                            onDeleteEdge={this.Empty} />
                     </div>
                 </div>
             </div>
