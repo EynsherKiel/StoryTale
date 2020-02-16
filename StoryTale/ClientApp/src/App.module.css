@@ -16,10 +16,13 @@
 .header {
     background-color: transparent; 
     max-height: 200px;
+    z-index: 2;
 }
 
-.main { 
+.main {
     overflow: auto; /* added an overflow rule to make the main area scroll if necessary */
+    z-index: 1;
+    margin: -5px 0px -5px 0px;
 }
 
 .footer {
@@ -28,6 +31,7 @@
     min-height: 15px;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     margin: 5px 0px 0px 0px;
+    z-index: 2;
 }
 
 .navbar {
