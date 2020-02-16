@@ -11,7 +11,7 @@
 }
 
 .left {
-    border-right: 0.7px solid red;
+    border-right: 0.7px solid #29b6f6;
     padding: 10px;
     min-width: 250px;
 }
